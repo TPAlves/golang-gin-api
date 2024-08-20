@@ -1,11 +1,16 @@
 package handlers
 
 import (
+	"errors"
 	"log"
 
 	"gorm.io/gorm"
 
 	"api-gin/model"
+)
+
+const (
+	USER_NOT_FOUND = "usuário não localizado"
 )
 
 type HeroHandler struct {
@@ -43,3 +48,21 @@ func (h HeroHandler) CreateHero(hero model.Hero) error {
 	return nil
 }
 
+func (h HeroHandler) UpdateHero(id int, updateHero model.Hero) error {
+	if hero, err := h.GetByIdHero(id); err == nil {
+		hero.Name = updateHero.Name
+		hero.SuperPower = updateHero.SuperPower
+		hero.Group = updateHero.Group
+		h.DB.Save(&hero)
+		return nil
+	}
+	return errors.New(USER_NOT_FOUND)
+}
+
+func (h HeroHandler) DeleteHero(id int) (string, error) {
+	if hero, err := h.GetByIdHero(id); err == nil {
+		h.DB.Delete(&hero)
+		return hero.Name, nil
+	}
+	return "", errors.New(USER_NOT_FOUND)
+}

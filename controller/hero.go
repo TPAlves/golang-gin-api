@@ -2,6 +2,7 @@ package controller
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -52,21 +53,8 @@ func (h *HeroController) CreateHeros(ctx *gin.Context) {
 }
 
 func (h *HeroController) GetByIdHero(ctx *gin.Context) {
-	param := ctx.Param("id")
-	if param == "" {
-		res := model.Response{
-			Message: "Parâmetro inválido",
-		}
-		ctx.JSON(http.StatusBadRequest, res)
-		return
-	}
-	id, err := strconv.Atoi(param)
-	if err != nil {
-		log.Println(err)
-		res := model.Response{
-			Message: "ID inválido",
-		}
-		ctx.JSON(http.StatusBadRequest, res)
+	id, shouldReturn := CheckId(ctx)
+	if shouldReturn {
 		return
 	}
 
@@ -87,4 +75,62 @@ func (h *HeroController) GetByIdHero(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, hero)
+}
+
+func (h *HeroController) UpdateHero(ctx *gin.Context) {
+	var updateHero model.Hero
+	id, shouldReturn := CheckId(ctx)
+
+	if shouldReturn {
+		return
+	}
+
+	if err := ctx.BindJSON(&updateHero); err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusBadRequest, err)
+	}
+
+	err := h.heroHandler.UpdateHero(id, updateHero)
+
+	if err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusInternalServerError, err)
+	}
+	ctx.JSON(http.StatusOK, "Herói atualizado com sucesso!")
+}
+
+func (h *HeroController) DeleteHero(ctx *gin.Context) {
+	id, shouldReturn := CheckId(ctx)
+	if shouldReturn {
+		return
+	}
+
+	heroName, err := h.heroHandler.DeleteHero(id)
+	if err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusBadRequest, err)
+	}
+
+	ctx.JSON(http.StatusOK, fmt.Sprintf("Herói %s deletado com sucesso!", heroName))
+}
+
+func CheckId(ctx *gin.Context) (int, bool) {
+	param := ctx.Param("id")
+	if param == "" {
+		res := model.Response{
+			Message: "Parâmetro inválido",
+		}
+		ctx.JSON(http.StatusBadRequest, res)
+		return 0, true
+	}
+	id, err := strconv.Atoi(param)
+	if err != nil {
+		log.Println(err)
+		res := model.Response{
+			Message: "ID inválido",
+		}
+		ctx.JSON(http.StatusBadRequest, res)
+		return 0, true
+	}
+	return id, false
 }
