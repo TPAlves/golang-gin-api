@@ -24,6 +24,12 @@ func NewHeroController(heroHandler handlers.HeroHandler) HeroController {
 	}
 }
 
+// @Summary			Get Heros
+// @Description		Retorna todos os heróis.
+// @Produce			application/json
+// @Heros			heros
+// @Success			200
+// @Router			/heros [get]
 func (h *HeroController) GetHeros(ctx *gin.Context) {
 	heros, err := h.heroHandler.GetHeros()
 	if err != nil {

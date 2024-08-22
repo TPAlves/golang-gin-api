@@ -1,0 +1,18 @@
+basePath: /
+host: localhost:8080
+info:
+  contact: {}
+  description: API Criada com o framework gin
+  title: Hero API
+  version: "1.0"
+paths:
+  /heros:
+    get:
+      description: Retorna todos os heróis.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Get Heros
+swagger: "2.0"

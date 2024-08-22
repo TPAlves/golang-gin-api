@@ -1,0 +1,27 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API Criada com o framework gin",
+        "title": "Hero API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/heros": {
+            "get": {
+                "description": "Retorna todos os heróis.",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Heros",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    }
+}
