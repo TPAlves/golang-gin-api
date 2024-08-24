@@ -1,4 +1,16 @@
 basePath: /
+definitions:
+  model.Hero:
+    properties:
+      Equipe:
+        type: string
+      Nome:
+        type: string
+      Super Poder:
+        type: string
+      id:
+        type: integer
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -6,13 +18,108 @@ info:
   title: Hero API
   version: "1.0"
 paths:
+  /hero:
+    post:
+      consumes:
+      - application/json
+      description: Registro de um herói.
+      parameters:
+      - description: hero
+        in: body
+        name: hero
+        required: true
+        schema:
+          $ref: '#/definitions/model.Hero'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+      summary: Registro de um herói.
+      tags:
+      - Hero
+  /hero/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletar dados do herói.
+      parameters:
+      - description: ID do herói
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Deletar dados do herói.
+      tags:
+      - Hero
+    get:
+      consumes:
+      - application/json
+      description: Busca de um herói pelo ID.
+      parameters:
+      - description: ID do herói
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Hero'
+      summary: Busca de um herói pelo ID.
+      tags:
+      - Hero
+    put:
+      consumes:
+      - application/json
+      description: Atualizar dados do herói.
+      parameters:
+      - description: ID do herói
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: hero
+        in: body
+        name: hero
+        required: true
+        schema:
+          $ref: '#/definitions/model.Hero'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Atualizar dados do herói.
+      tags:
+      - Hero
   /heros:
     get:
+      consumes:
+      - application/json
       description: Retorna todos os heróis.
       produces:
       - application/json
       responses:
         "200":
           description: OK
-      summary: Get Heros
+          schema:
+            $ref: '#/definitions/model.Hero'
+      summary: Consulta de todos heróis.
+      tags:
+      - Hero
 swagger: "2.0"

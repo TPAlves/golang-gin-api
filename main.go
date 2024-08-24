@@ -15,19 +15,18 @@ const (
 	HERO_ENDPOINT = "/hero/:id"
 )
 
-//	@title			Hero API
-//	@version		1.0
-//	@description	API Criada com o framework gin
-
-// @host		localhost:8080
-// @BasePath	/
+// @title	Hero API
+// @version 1.0
+// @description API Criada com o framework gin
+// @host localhost:8080
+// @BasePath /
 func main() {
 	server := gin.Default()
 	dbConnection := db.ConnectDB()
 	heroHandler := handlers.NewHeroHandler(dbConnection)
 	heroController := controller.NewHeroController(heroHandler)
 
-	server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	server.GET("/heros", heroController.GetHeros)
 	server.POST("/hero", heroController.CreateHeros)
 	server.GET(HERO_ENDPOINT, heroController.GetByIdHero)

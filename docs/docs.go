@@ -15,17 +15,180 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/heros": {
-            "get": {
-                "description": "Retorna todos os heróis.",
+        "/hero": {
+            "post": {
+                "description": "Registro de um herói.",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Get Heros",
+                "tags": [
+                    "Hero"
+                ],
+                "summary": "Registro de um herói.",
+                "parameters": [
+                    {
+                        "description": "hero",
+                        "name": "hero",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Hero"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/hero/{id}": {
+            "get": {
+                "description": "Busca de um herói pelo ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hero"
+                ],
+                "summary": "Busca de um herói pelo ID.",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID do herói",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Hero"
+                        }
                     }
+                }
+            },
+            "put": {
+                "description": "Atualizar dados do herói.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hero"
+                ],
+                "summary": "Atualizar dados do herói.",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID do herói",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "hero",
+                        "name": "hero",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Hero"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletar dados do herói.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hero"
+                ],
+                "summary": "Deletar dados do herói.",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID do herói",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/heros": {
+            "get": {
+                "description": "Retorna todos os heróis.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hero"
+                ],
+                "summary": "Consulta de todos heróis.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Hero"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.Hero": {
+            "type": "object",
+            "properties": {
+                "Equipe": {
+                    "type": "string"
+                },
+                "Nome": {
+                    "type": "string"
+                },
+                "Super Poder": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
                 }
             }
         }
