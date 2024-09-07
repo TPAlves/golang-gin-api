@@ -1,0 +1,15 @@
+@host = localhost:8080
+
+// Create User
+POST http://{{host}}/api/user/register HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Thiago Pereira Alves",
+    "username": "thiago.alves",
+    "email": "thiago@go.com",
+    "password": "1234"
+}
+
+
+

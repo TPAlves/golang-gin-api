@@ -1,0 +1,15 @@
+@host = localhost:8080
+
+// Get All Heros
+GET http://{{host}}/api/secured/heros HTTP/1.1
+content-type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjU3NTIxNzIsInVzZXJuYW1lIjoidGhpYWdvLmFsdmVzIn0.JcMs8QLjvp7v1em5B5PIFcLvMyvSWm3d6ndds7_DbuY
+
+###
+
+// Get All Hero by ID
+GET http://{{host}}/api/secured/hero/1 HTTP/1.1
+content-type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjU3NTIxNzIsInVzZXJuYW1lIjoidGhpYWdvLmFsdmVzIn0.JcMs8QLjvp7v1em5B5PIFcLvMyvSWm3d6ndds7_DbuY
+
+

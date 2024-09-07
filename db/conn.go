@@ -35,6 +35,7 @@ func ConnectDB() *gorm.DB {
 		log.Panic("Não foi possível conectar no banco de dados: ", err)
 	}
 
+	db.AutoMigrate(&model.User{})
 	db.AutoMigrate(&model.Hero{})
 	return db
 }

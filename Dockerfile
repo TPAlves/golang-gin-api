@@ -6,6 +6,6 @@ COPY . .
 
 EXPOSE 8080 
 
-RUN go build -o api cmd/main.go 
+RUN go build -o api main.go 
 
 CMD ["./api"]

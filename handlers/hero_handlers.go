@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	USER_NOT_FOUND = "usuário não localizado"
+	HERO_NOT_FOUND = "usuário não localizado"
 )
 
 type HeroHandler struct {
@@ -56,7 +56,7 @@ func (h HeroHandler) UpdateHero(id int, updateHero model.Hero) error {
 		h.DB.Save(&hero)
 		return nil
 	}
-	return errors.New(USER_NOT_FOUND)
+	return errors.New(HERO_NOT_FOUND)
 }
 
 func (h HeroHandler) DeleteHero(id int) (string, error) {
@@ -64,5 +64,5 @@ func (h HeroHandler) DeleteHero(id int) (string, error) {
 		h.DB.Delete(&hero)
 		return hero.Name, nil
 	}
-	return "", errors.New(USER_NOT_FOUND)
+	return "", errors.New(HERO_NOT_FOUND)
 }
