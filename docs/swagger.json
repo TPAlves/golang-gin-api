@@ -9,9 +9,14 @@
     "host": "localhost:8080",
     "basePath": "/",
     "paths": {
-        "/hero": {
+        "/api/secured/hero": {
             "post": {
-                "description": "Registro de um herói.",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Registrar dados do herói.",
                 "consumes": [
                     "application/json"
                 ],
@@ -21,7 +26,7 @@
                 "tags": [
                     "Hero"
                 ],
-                "summary": "Registro de um herói.",
+                "summary": "Registrar dados do herói.",
                 "parameters": [
                     {
                         "description": "hero",
@@ -43,9 +48,14 @@
                 }
             }
         },
-        "/hero/{id}": {
+        "/api/secured/hero/{id}": {
             "get": {
-                "description": "Busca de um herói pelo ID.",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Buscar dados do herói pelo ID.",
                 "consumes": [
                     "application/json"
                 ],
@@ -55,7 +65,7 @@
                 "tags": [
                     "Hero"
                 ],
-                "summary": "Busca de um herói pelo ID.",
+                "summary": "Buscar dados do herói pelo ID.",
                 "parameters": [
                     {
                         "type": "integer",
@@ -75,6 +85,11 @@
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "description": "Atualizar dados do herói.",
                 "consumes": [
                     "application/json"
@@ -114,6 +129,11 @@
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "description": "Deletar dados do herói.",
                 "consumes": [
                     "application/json"
@@ -144,9 +164,14 @@
                 }
             }
         },
-        "/heros": {
+        "/api/secured/heros": {
             "get": {
-                "description": "Retorna todos os heróis.",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Consultar dados dos heróis..",
                 "consumes": [
                     "application/json"
                 ],
@@ -156,12 +181,85 @@
                 "tags": [
                     "Hero"
                 ],
-                "summary": "Consulta de todos heróis.",
+                "summary": "Consultar dados dos heróis.",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/model.Hero"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/secured/user/register": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Cadastrar usuário.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Cadastrar usuário.",
+                "parameters": [
+                    {
+                        "description": "user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/token/": {
+            "post": {
+                "description": "Gerar Token.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Gerar Token.",
+                "parameters": [
+                    {
+                        "description": "token",
+                        "name": "token",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TokenRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }
@@ -180,11 +278,43 @@
                 },
                 "Super Poder": {
                     "type": "string"
-                },
-                "id": {
-                    "type": "integer"
                 }
             }
+        },
+        "model.TokenRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.User": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "JWT": {
+            "type": "apiKey",
+            "name": "authorization",
+            "in": "header"
         }
     }
 }

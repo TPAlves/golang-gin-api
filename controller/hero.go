@@ -30,7 +30,11 @@ func NewHeroController(heroHandler handlers.HeroHandler) HeroController {
 // @Accept 			json
 // @Produce			json
 // @Success			200 {object} model.Hero
-// @Router			/heros [get]
+// @Router			/api/secured/heros [get]
+// @securityDefinitions.apiKey authorization
+// @in header
+// @name Authorization
+// @Security JWT
 func (h *HeroController) GetHeros(ctx *gin.Context) {
 	heros, err := h.heroHandler.GetHeros()
 	if err != nil {
@@ -49,7 +53,11 @@ func (h *HeroController) GetHeros(ctx *gin.Context) {
 // @Produce			json
 // @Param 			hero body model.Hero true "hero"
 // @Success			201 {object} string
-// @Router			/hero [post]
+// @Router			/api/secured/hero [post]
+// @securityDefinitions.apiKey authorization
+// @in header
+// @name Authorization
+// @Security JWT
 func (h *HeroController) CreateHeros(ctx *gin.Context) {
 	var hero model.Hero
 	err := ctx.BindJSON(&hero)
@@ -74,7 +82,11 @@ func (h *HeroController) CreateHeros(ctx *gin.Context) {
 // @Produce			json
 // @Param 			id path  int true "ID do herói"
 // @Success			200 {object} model.Hero
-// @Router			/hero/{id} [get]
+// @Router			/api/secured/hero/{id} [get]
+// @securityDefinitions.apiKey authorization
+// @in header
+// @name Authorization
+// @Security JWT
 func (h *HeroController) GetByIdHero(ctx *gin.Context) {
 	id, shouldReturn := CheckId(ctx)
 	if shouldReturn {
@@ -100,7 +112,6 @@ func (h *HeroController) GetByIdHero(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, hero)
 }
 
-
 // @Summary			Atualizar dados do herói.
 // @Description		Atualizar dados do herói.
 // @Tags 			Hero
@@ -109,7 +120,11 @@ func (h *HeroController) GetByIdHero(ctx *gin.Context) {
 // @Param 			id path  int true "ID do herói"
 // @Param 			hero body model.Hero true "hero"
 // @Success			200 {object} string
-// @Router			/hero/{id} [put]
+// @Router			/api/secured/hero/{id} [put]
+// @securityDefinitions.apiKey authorization
+// @in header
+// @name Authorization
+// @Security JWT
 func (h *HeroController) UpdateHero(ctx *gin.Context) {
 	var updateHero model.Hero
 	id, shouldReturn := CheckId(ctx)
@@ -132,7 +147,6 @@ func (h *HeroController) UpdateHero(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, "Herói atualizado com sucesso!")
 }
 
-
 // @Summary			Deletar dados do herói.
 // @Description		Deletar dados do herói.
 // @Tags 			Hero
@@ -140,7 +154,11 @@ func (h *HeroController) UpdateHero(ctx *gin.Context) {
 // @Produce			json
 // @Param 			id path  int true "ID do herói"
 // @Success			200 {object} string
-// @Router			/hero/{id} [delete]
+// @Router			/api/secured/hero/{id} [delete]
+// @securityDefinitions.apiKey authorization
+// @in header
+// @name Authorization
+// @Security JWT
 func (h *HeroController) DeleteHero(ctx *gin.Context) {
 	id, shouldReturn := CheckId(ctx)
 	if shouldReturn {

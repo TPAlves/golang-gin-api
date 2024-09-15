@@ -8,8 +8,24 @@ definitions:
         type: string
       Super Poder:
         type: string
-      id:
-        type: integer
+    type: object
+  model.TokenRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  model.User:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
     type: object
 host: localhost:8080
 info:
@@ -18,11 +34,11 @@ info:
   title: Hero API
   version: "1.0"
 paths:
-  /hero:
+  /api/secured/hero:
     post:
       consumes:
       - application/json
-      description: Registro de um herói.
+      description: Registrar dados do herói.
       parameters:
       - description: hero
         in: body
@@ -37,10 +53,12 @@ paths:
           description: Created
           schema:
             type: string
-      summary: Registro de um herói.
+      security:
+      - JWT: []
+      summary: Registrar dados do herói.
       tags:
       - Hero
-  /hero/{id}:
+  /api/secured/hero/{id}:
     delete:
       consumes:
       - application/json
@@ -58,13 +76,15 @@ paths:
           description: OK
           schema:
             type: string
+      security:
+      - JWT: []
       summary: Deletar dados do herói.
       tags:
       - Hero
     get:
       consumes:
       - application/json
-      description: Busca de um herói pelo ID.
+      description: Buscar dados do herói pelo ID.
       parameters:
       - description: ID do herói
         in: path
@@ -78,7 +98,9 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Hero'
-      summary: Busca de um herói pelo ID.
+      security:
+      - JWT: []
+      summary: Buscar dados do herói pelo ID.
       tags:
       - Hero
     put:
@@ -104,14 +126,16 @@ paths:
           description: OK
           schema:
             type: string
+      security:
+      - JWT: []
       summary: Atualizar dados do herói.
       tags:
       - Hero
-  /heros:
+  /api/secured/heros:
     get:
       consumes:
       - application/json
-      description: Retorna todos os heróis.
+      description: Consultar dados dos heróis..
       produces:
       - application/json
       responses:
@@ -119,7 +143,60 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Hero'
-      summary: Consulta de todos heróis.
+      security:
+      - JWT: []
+      summary: Consultar dados dos heróis.
       tags:
       - Hero
+  /api/secured/user/register:
+    post:
+      consumes:
+      - application/json
+      description: Cadastrar usuário.
+      parameters:
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+      security:
+      - JWT: []
+      summary: Cadastrar usuário.
+      tags:
+      - User
+  /api/token/:
+    post:
+      consumes:
+      - application/json
+      description: Gerar Token.
+      parameters:
+      - description: token
+        in: body
+        name: token
+        required: true
+        schema:
+          $ref: '#/definitions/model.TokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Gerar Token.
+      tags:
+      - User
+securityDefinitions:
+  JWT:
+    in: header
+    name: authorization
+    type: apiKey
 swagger: "2.0"

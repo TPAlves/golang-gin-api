@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -16,13 +18,21 @@ const (
 	HERO_ENDPOINT = "/hero/:id"
 )
 
-// @title	Hero API
-// @version 1.0
-// @description API Criada com o framework gin
-// @host localhost:8080
-// @BasePath /
+// @title           Hero API
+// @version         1.0
+// @description     API Criada com o framework gin
+// @host            localhost:8080
+// @BasePath        /
+// @securityDefinitions.apiKey JWT
+// @in header
+// @name authorization
 func main() {
 	server := initRouter()
+	environment := os.Getenv("ENVIROMENT")
+	if environment == "release" {
+		gin.SetMode(gin.ReleaseMode)
+	}
+	server.SetTrustedProxies(nil)
 	server.Run(":8080")
 }
 
@@ -38,10 +48,10 @@ func initRouter() *gin.Engine {
 	userController := controller.NewUserController(userHandler)
 	{
 		api.POST("/token", tokenController.GenerateToken)
-		api.POST("user/register", userController.RegisterUser)
+		api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 		secured := api.Group("/secured").Use(middleware.Auth())
 		{
-			secured.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+			secured.POST("/user/register", userController.RegisterUser)
 			secured.GET("/heros", heroController.GetHeros)
 			secured.POST("/hero", heroController.CreateHeros)
 			secured.GET(HERO_ENDPOINT, heroController.GetByIdHero)

@@ -18,6 +18,14 @@ func NewTokenController(tokenHandler handlers.TokenHandler) TokenController {
 	return TokenController{tokenHandler}
 }
 
+// @Summary			Gerar Token.
+// @Description		Gerar Token.
+// @Tags 			User
+// @Accept 			json
+// @Produce			json
+// @Param 			token body model.TokenRequest true "token"
+// @Success			200 {object} string
+// @Router			/api/token/ [post]
 func (t *TokenController) GenerateToken(ctx *gin.Context) {
 	var request model.TokenRequest
 	var user model.User
