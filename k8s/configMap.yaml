@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hero-api-env
+data:
+  POSTGRES_HOST: localhost
+  POSTGRES_USER: root
+  POSTGRES_DB: postgres
+  POSTGRES_PORT: '5432'
+  ENVIROMENT: release

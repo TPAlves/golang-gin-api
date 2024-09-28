@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-state  
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+  serviceName: postgres
+  replicas: 1
+  minReadySeconds: 10
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      automountServiceAccountToken: false
+      containers:
+      - name: postgres
+        image: postgres:13.16
+        ports:
+        - containerPort: 5432
+        envFrom:
+        - configMapRef:
+            name: hero-api-env
+        - secretRef:
+            name: hero-api-sec
+        volumeMounts:
+        - name: postgres-volume-mount
+          mountPath: /var/lib/postgres
+      volumes:
+      - name: postgres-volume-mount
+        persistentVolumeClaim:
+          claimName: volume-postgres
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: postgres
+  ports:
+  - port: 5432

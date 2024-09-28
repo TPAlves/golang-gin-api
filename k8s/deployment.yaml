@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hero-api-deploy
+spec:
+  selector:
+    matchLabels:
+      app: hero-api
+  template:
+    metadata:
+      labels:
+        app: hero-api
+    spec:
+      containers:
+      - name: hero-api-container
+        image: tpalves/golang-gin-api:1.2
+        ports:
+        - containerPort: 8080
+        envFrom:
+          - secretRef:
+              name: hero-api-sec
+          - configMapRef:
+              name: hero-api-env
+      automountServiceAccountToken: false
+  replicas: 2
