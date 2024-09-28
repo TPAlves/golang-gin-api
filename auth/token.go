@@ -31,8 +31,7 @@ func VerifyToken(tokenString string) error {
 		})
 
 	if err != nil {
-		log.Panicf("Falha ao validar o token: %s", err)
-		return err
+		return fmt.Errorf("falha ao validar o token: %s", err)
 	}
 
 	if !token.Valid {
