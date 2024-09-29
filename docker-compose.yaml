@@ -12,7 +12,7 @@ services:
       - pgdata:/var/lib/postgresql/data
   go:
     container_name: go-api
-    image: tpalves/golang-gin-api:1.1
+    image: tpalves/golang-gin-api:1.2
     ports:
       - "8080:8080"
     depends_on:

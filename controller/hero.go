@@ -14,6 +14,11 @@ import (
 	"api-gin/model"
 )
 
+type HeroControllerInterface interface {
+	GetHeros(c *gin.Context)
+	GetByIdHero(c *gin.Context)
+}
+
 type HeroController struct {
 	heroHandler handlers.HeroHandler
 }
